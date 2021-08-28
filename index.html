@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Text Animation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet"> 
+</head>
+<body>
+    <section>
+        <h1 class="anim">Hi! I'm Kim Jeoffrey</h1>
+    </section>
+    <section>
+        <h1 class="anim">A Web Developer</h1>
+    </section>
+    <section>
+        <h1 class="anim">Isn't it amazing!</h1>
+    </section>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 600">
+        <path id="our-text" fill="#fff" fill-opacity= "0" d="M33.5 39.5v429h437v-429h-431"/>
+        <text y="10" font-size="30" font-family="Raleway, sans-serif">
+            <textPath id="text-path" class="text" href="#our-text">
+                Hi Internet! People of the World I know it's cool!
+            </textPath>
+        </text>
+    </svg>
+
+    <script>
+
+        //for the svg
+        let textPath = document.querySelector('#text-path');
+        
+        function updateTextPathOffset(offset){
+            textPath.setAttribute('startOffset', offset)
+        }
+
+        function onScroll(){
+            requestAnimationFrame(function(){
+                updateTextPathOffset(window.scrollY * 1)
+            })
+        }
+
+        window.addEventListener('scroll', onScroll);
+
+
+        // for h1 items
+        //getting the class of items we want to animate
+        const title = document.querySelectorAll('.anim');
+
+
+        //IntersectionObserver observes the changes in the intersection so that we can manipulate that data and animate some elements
+        observer = new IntersectionObserver(entries => {
+            
+            for(let entry of entries){
+                if(entry.isIntersecting == true){
+                    entry.target.classList.add('animate');
+                
+                }
+                else{
+                    entry.target.classList.remove('animate');
+                }
+                //we can also use this
+                // if(entry.intersectionRatio > 0){
+                //     entry.target.style.animation = `reveal 1s forwards`;
+                // }
+                // else{
+                //     entry.target.style.animation = 'none';
+                // }
+            }
+        });
+
+        for(let i of title){
+            observer.observe(i);
+        }
+
+    </script>
+    
+</body>
+</html>
